@@ -1,0 +1,16 @@
+.Header {
+    align-items: center;
+    padding-top: 0.5%;
+    padding-right: 0.5%;
+    padding-bottom: 0.5%;
+}
+
+.Page {
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+/* .Center{
+    justify-content: center;
+    padding-top: 10%;
+    padding-left: 25%;
+} */
