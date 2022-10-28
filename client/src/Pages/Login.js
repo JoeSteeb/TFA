@@ -19,6 +19,24 @@ const Login = () => {
       setPass2(event.target.value);
     }
 
+    const createUser = async (password2)=>{
+      console.log("pass = ", pass);
+      console.log("pass2 = ", password2);
+      if(pass == pass2){
+        const body = {
+          username: {username},
+          password: {pass}
+        };
+        const response = await fetch("http://localhost:5000/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const myJson = await response.json();
+        console.log(myJson)
+      }
+    }
+
     var initialPage = (
     <>
     <button>Login</button>
@@ -32,7 +50,7 @@ const Login = () => {
 
     const determinePage = (flag) =>{
       if(flag){
-        setPage(<Register setPage={determinePage}/>);
+        setPage(<Register setPage={determinePage} register={createUser}/>);
       }
       else{
         setPage(initialPage)
