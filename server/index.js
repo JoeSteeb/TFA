@@ -3,6 +3,7 @@ const cors = require("cors");
 const pool = require("./db");
 const app = express();
 
+//test
 app.use(cors());
 app.use(express.json());
 
