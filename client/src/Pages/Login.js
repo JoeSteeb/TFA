@@ -1,88 +1,145 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import '../css/global.css'
-import Register from "./Register";
+import Hash from "./Hash";
 
 const Login = () => {
-    var flag = true;
-    const [username, setusername] = useState("");
-    // ToDo(Critical): Hash These LOL
-    const [pass, setPass] = useState("");
-    const [pass2, setPass2] = useState("");
+  
+  let username = "";
+  let email = "";
+  let pass = "";
+  let pass2 = "";
+  const [flipper, setFlipper] = useState(false);
+  const [btnText, setBtnText] = useState("Click To Register");
 
-    const handleUsername = event =>{
-      setusername(event.target.value);
-    }
-    const handlePassword = event =>{
-      setPass(event.target.value);
-    }
-    const handlePassword2 = event =>{
-      setPass2(event.target.value);
-    }
+  const clear = ()=>{
+    username = "";
+    email = "";
+    pass = "";
+    pass2 = "";
+  }
 
-    const createUser = async (password2)=>{
-      console.log("pass = ", pass);
-      console.log("pass2 = ", password2);
-      if(pass == pass2){
-        const body = {
-          username: {username},
-          password: {pass}
-        };
-        const response = await fetch("http://localhost:5000/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
-        });
-        const myJson = await response.json();
-        console.log(myJson)
-      }
-    }
+  const handleUsername = event =>{
+    console.log("should be",event.target.value);
+    username = event.target.value;
+    console.log(username);
+  }
+  const handleEmail = event =>{
+    email = event.target.value;
+  }
+  const handlePassword = event =>{
+    pass = event.target.value;
+  }
+  const handlePassword2 = event =>{
+    pass2 = event.target.value;
+  }
 
-    var initialPage = (
-    <>
-    <button>Login</button>
+  const createUser = async ()=>{
+    if(pass === pass2 
+      && (username !== ""
+      || pass !== ""
+      || pass2 !== "")){
+      console.log("user = ", username);
+      console.log("pass2 = ", pass2);
+      const body = {
+        username: username,
+        password: Hash(pass),
+        email: email
+      };
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      const myJson = await response.json();
+      console.log(myJson)
+    }
+  }
+
+  const checkUser = async ()=>{
+    return 0;
+  }
+
+  const login = <div>
+    <div>Username</div>
+    <input 
+    id="name"
+    name = "username"
+    type="text"
+    onChange={handleUsername}
+    />
+    <div>Password</div>
+    <input 
+    id="pass"
+    name = "pass"
+    type="password"
+    onChange={handlePassword}
+    />
     <div>
-    <button onClick={()=>determinePage(flag)}>Not a User? click here</button>
     </div>
-    </> 
-    )
+    </div>;
 
-    const [page, setPage] = useState(initialPage)
+  const handleRegister = ()=>{
+    createUser();
+    clear();
+    setBtnText("Click To Register");
+    setPage(login);
+  }
 
-    const determinePage = (flag) =>{
-      if(flag){
-        setPage(<Register setPage={determinePage} register={createUser}/>);
+  const [page, setPage] = useState(login);
+  const register = (<div>
+    <div>Username</div>
+    <input 
+        id="username"
+        name = "username"
+        onChange={handleUsername}
+        />
+    <div>Email</div>
+    <input 
+        id="email"
+        name = "email"
+        onChange={handleEmail}
+        />
+    <div>Password</div>
+    <input 
+        id="pass"
+        name = "pass"
+        type="password"
+        onChange={handlePassword}
+        />
+    <div>Retype Password</div>
+    <input 
+        id="pass2"
+        name = "pass2"
+        type="password"
+        onChange={handlePassword2}
+        />
+    <div>
+      <button onClick={handleRegister}>Register</button>
+    </div>
+  </div>);
+
+    const click = ()=>{
+      if(flipper){
+        console.log("normal");
+        setPage(login);
+        setBtnText("Click To Register");
+        return false;
       }
       else{
-        setPage(initialPage)
-        setusername("");
-        setPass("");
+        console.log("reg");
+        setPage(register)
+        setBtnText("Return to login");
+        return true;
       }
-
     }
 
-    return (
+    return(
+    <>
+    {page}
     <div>
-      <div>Username</div>
-      <input 
-      id="login"
-      name = "login"
-      type="text"
-      onChange={handleUsername}
-      value={username}
-      />
-      <div>Password</div>
-      <input 
-      id="pass"
-      name = "pass"
-      type="password"
-      onChange={handlePassword}
-      value={pass}
-      />
-      <div>
-      {page}
-      </div>
+      <button onClick={()=>setFlipper(click())}>{btnText}</button>
     </div>
-  );
+    </>)
 };
 
 export default Login;

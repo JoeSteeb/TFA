@@ -1,18 +1,9 @@
 import React, { useState } from "react";
 import Btn from "./components/Btn";
-import Register from "./Pages/Register";
 import Login from "./Pages/Login"
 import About from "./Pages/About"
 import LoggedIn from "./Pages/LoggedIn";
 import './css/global.css';
-
-// const db = new sqlite3.Database(
-//   './data.db', 
-//   sqlite3.OPEN_READWRITE, 
-//   (err)=>{
-//     if (err) return console.error(err.message);
-//     console.log("connection successful");
-//   });
 
 function App() {
 
