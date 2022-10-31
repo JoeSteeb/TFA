@@ -3,9 +3,9 @@
 ./.vscode
 
 # dependencies
-./client/node_modules
-./server/node_modules
-./client/.pnp
+./*/node_modules/
+client/node_modules/
+server/node_modules/
 ./client.pnp.js
 
 # testing
