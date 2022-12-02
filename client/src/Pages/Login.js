@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import '../css/global.css'
 import Hash from "./Hash";
+import Base from "./Base";
 
 const Login = () => {
   
@@ -8,6 +9,7 @@ const Login = () => {
   let email = "";
   let pass = "";
   let pass2 = "";
+  const [displayPassword, setDisplayPassword] = useState("");
   const [flipper, setFlipper] = useState(false);
   const [btnText, setBtnText] = useState("Click To Register");
 
@@ -19,9 +21,7 @@ const Login = () => {
   }
 
   const handleUsername = event =>{
-    console.log("should be",event.target.value);
     username = event.target.value;
-    console.log(username);
   }
   const handleEmail = event =>{
     email = event.target.value;
@@ -34,15 +34,15 @@ const Login = () => {
   }
 
   const createUser = async ()=>{
+    let hashedPass = pass;
+    hashedPass = Hash(hashedPass);
     if(pass === pass2 
       && (username !== ""
       || pass !== ""
       || pass2 !== "")){
-      console.log("user = ", username);
-      console.log("pass2 = ", pass2);
       const body = {
         username: username,
-        password: Hash(pass),
+        password: hashedPass,
         email: email
       };
       const response = await fetch("http://localhost:5000/register", {
@@ -55,8 +55,17 @@ const Login = () => {
     }
   }
 
-  const checkUser = async ()=>{
-    return 0;
+  const Login = async ()=>{
+    let hashedPass = pass;
+    hashedPass = Hash(hashedPass);
+    const req = ('http://localhost:5000/getuser/'+ username);
+    console.log(req);
+    const response = await fetch(req);
+    const myJson = await response.json();
+    let rUser = JSON.parse(myJson);
+    if(hashedPass == rUser.passwd){
+      console.log(rUser.user_name, " LOGGED IN")
+    }
   }
 
   const login = <div>
@@ -66,6 +75,7 @@ const Login = () => {
     name = "username"
     type="text"
     onChange={handleUsername}
+    value={username}
     />
     <div>Password</div>
     <input 
@@ -75,6 +85,8 @@ const Login = () => {
     onChange={handlePassword}
     />
     <div>
+      <button
+      onClick={Login}>Login</button>
     </div>
     </div>;
 
@@ -82,6 +94,8 @@ const Login = () => {
     createUser();
     clear();
     setBtnText("Click To Register");
+    username = "";
+    pass = "";
     setPage(login);
   }
 
@@ -135,10 +149,13 @@ const Login = () => {
 
     return(
     <>
-    {page}
-    <div>
-      <button onClick={()=>setFlipper(click())}>{btnText}</button>
-    </div>
+    <Base/>
+      <center>
+      <div>{page}</div>
+      <div>
+        <button onClick={()=>setFlipper(click())}>{btnText}</button>
+      </div>
+      </center>
     </>)
 };
 
