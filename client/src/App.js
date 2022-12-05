@@ -22,7 +22,13 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Base doLogout={logout}/>} />
+      <Route path="/" element={
+          <Login 
+            loggedIn={loggedIn}
+            doLogin={()=>{setLoggedIn(true)}}
+            doLogout={logout}
+          />
+        } />
         <Route path="/login" element={
           <Login 
             loggedIn={loggedIn} 

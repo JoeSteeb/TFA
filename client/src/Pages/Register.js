@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import Hash from "./Hash";
 import { Link } from 'react-router-dom'
 
-const Register = ({loggedIn}) => {
+const Register = () => {
     let username = "";
     let email = "";
     let pass = "";

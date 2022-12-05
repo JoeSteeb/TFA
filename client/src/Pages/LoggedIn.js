@@ -9,20 +9,24 @@ const LoggedIn = ({loggedIn, doLogout}) => {
         console.log("useEffect called");
         if(loggedIn())
         {
-            setIsLoggedIn(<h1>YES</h1>);
+            setIsLoggedIn(
+            <h1>Logged in</h1>
+            );
         }
         else{
-            setIsLoggedIn(<h1>No</h1>);
+            setIsLoggedIn(<h1>Not logged in</h1>);
         }
     },[loggedIn]);
         
    return (
-       <center>
-           <Base doLogout={doLogout}/>
-           <div>
-                {isLoggedIn}
+       <>
+       <Base doLogout={doLogout}/>
+            <div className='content'>
+                <div>
+                    {isLoggedIn}
+                </div>
             </div>
-       </center>
+       </>
    );
 
 
