@@ -22,17 +22,18 @@ app.post("/register", async(req, res) => {
         +"\'"+userInput.username+"\',"
         +"\'"+userInput.email+"\',"
         +"\'"+userInput.password+"\');");
-
     }catch(err){
         console.error(err.message);
     }
 })
 
-app.get("/getuser", async(req,res) => {
+app.get("/getuser/:username", async(req,res) => {
     try{
-        const userInput = req.body;
-        const user = await pool.query("SELECT * FROM USERS WHERE (user_name =" + userInput.name + ");");
-        res.json(user.rows);
+        const {username} = req.params
+        console.log("SELECT * FROM USERS WHERE (user_name =\'" + username + "\');");
+        const user = await pool.query("SELECT * FROM USERS WHERE (user_name =\'" + username + "\');");
+        console.log(user.rows[0]);
+        res.json(JSON.stringify(user.rows[0]));
     }catch(err){
 
     }

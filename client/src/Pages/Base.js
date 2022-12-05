@@ -1,24 +1,16 @@
 import React, { useState } from "react";
 import '../css/global.css';
 import styled from 'styled-components'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-function Base() {
-  const Button = styled.button`
-  background: white;
-  color:grey;
-  font-size: 1em;
-  margin: 3%;
-  padding: 0.25em 1em;
-  border: 2px solid red;
-  border-radius: 3px;
-  `
+function Base({doLogout}) {
   return (
   <center>
     <span className="Header" >
-    <Button as={Link} to="/Login"> Login </Button>
-    <Button as={Link} to="/About"> About </Button>
-    <Button as={Link} to="/loggedin"> Logged In </Button>
+    <Link to={'/login'}><button className="button">Login</button></Link>
+    <Link to={'/about'}><button className="button">About</button></Link>
+    <Link to={'/loggedin'}><button className="button">Logged IN</button></Link>
+    <button className="button" onClick={doLogout}>Logout</button>
     </span>
   </center>
   )
